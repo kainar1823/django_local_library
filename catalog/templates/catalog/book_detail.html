@@ -1,0 +1,34 @@
+{% extends 'base_generic.html' %} {% block title %}
+<title>Local Library Book Detail</title>
+{% endblock %} {% block content %}
+<h1>Title: {{ book.title }}</h1>
+<a href="{% url 'book_update' pk=book.id %}">Edit this book</a> -
+<a href="{% url 'book_delete' pk=book.id %}" class="text-danger">Delete this book</a>
+<hr />
+
+<p><strong>Author:</strong> <a href="{% url 'author-detail' book.author.pk %}">{{ book.author }}</a></p>
+<p><strong>Summary:</strong> {{ book.summary }}</p>
+<p><strong>ISBN:</strong> {{ book.isbn }}</p>
+<p><strong>Language:</strong> {{ book.language }}</p>
+<p><strong>Genre:</strong> {% for genre in book.genre.all %} {{ genre }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+
+<div style="margin-left: 20px; margin-top: 20px">
+    <h4>Copies</h4>
+
+    <!--
+        函数book.bookinstance_set.all()
+        此方法由 Django “自动” 构造，以便返回与特定 Book 相关联的 BookInstance记录集合。
+    -->
+    {% for copy in book.bookinstance_set.all %}
+    <hr />
+    <p class="{% if copy.status == 'a' %}text-success{% elif copy.status == 'm' %}text-danger{% else %}text-warning{% endif %}">
+        {{ copy.get_status_display }}
+    </p>
+    {% if copy.status != 'a' %}
+    <p><strong>Due to be returned:</strong> {{copy.due_back}}</p>
+    {% endif %}
+    <p><strong>Imprint:</strong> {{copy.imprint}}</p>
+    <p class="text-muted"><strong>Id:</strong> {{copy.id}}</p>
+    {% endfor %}
+</div>
+{% endblock %}

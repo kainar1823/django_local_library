@@ -1,0 +1,15 @@
+<!--
+    “创建” 和 “更新” 视图默认使用相同的模板，它将以您的模型命名：model_name_form.html
+    （您可以使用视图中的template_name_suffix 字段，将后缀更改为_form 以外的其他内容，
+    例如，template_name_suffix = '_other_suffix'）
+-->
+{% extends "base_generic.html" %} {% block content %}
+
+<form action="" method="post">
+    {% csrf_token %}
+    <table>
+        {{ form.as_table }}
+    </table>
+    <input type="submit" value="Submit" />
+</form>
+{% endblock %}

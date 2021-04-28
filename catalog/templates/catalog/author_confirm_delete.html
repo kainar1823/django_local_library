@@ -1,0 +1,16 @@
+<!--
+    “删除”视图需要查找以 model_name_confirm_delete.html 格式命名的模板
+    （同样，您可以在视图中，使用template_name_suffix 更改后缀）。
+-->
+{% extends "base_generic.html" %} {% block content %}
+
+<h1>Delete Author</h1>
+
+<p>Are you sure you want to delete the author: {{ author }}?</p>
+
+<form action="" method="POST">
+    {% csrf_token %}
+    <input type="submit" action="" value="Yes, delete." />
+</form>
+
+{% endblock %}
